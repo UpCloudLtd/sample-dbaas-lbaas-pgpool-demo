@@ -1,4 +1,4 @@
-# Terraform LBaaS-PGPOOL2-DBaaS demo
+# Terraform LBaaS-Pgpool-II-DBaaS demo
 
 Please note that this is just an example on how you can use Terraform with [UpCloud](https://upcloud.com/) and should not be used in production as is. Please see [LICENSE](LICENSE) for details.
 
