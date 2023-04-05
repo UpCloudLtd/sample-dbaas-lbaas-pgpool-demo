@@ -14,7 +14,7 @@ module "proxy" {
   ssh_key_public               = var.ssh_key_public
   zone                         = var.zone
   pgpool_proxy_plan            = var.pgpool_proxy_plan
-  private_sdn_network          = module.sdn_network.private_sdn_network
+  private_sdn_network_proxy          = module.sdn_network.private_sdn_network_proxy
   dbaas_pgsql_hosts            = module.dbaas_pgsql.dbaas_pgsql_hosts
   dbaas_pgsql_database         = module.dbaas_pgsql.dbaas_pgsql_database
   dbaas_pgsql_port             = module.dbaas_pgsql.dbaas_pgsql_port
@@ -29,7 +29,7 @@ module "proxy" {
 module "server" {
   source               = "./modules/server"
   ssh_key_public       = var.ssh_key_public
-  private_sdn_network  = module.sdn_network.private_sdn_network
+  private_sdn_network_client  = module.sdn_network.private_sdn_network_client
   zone                 = var.zone
   dbaas_pgsql_database = module.dbaas_pgsql.dbaas_pgsql_database
   dbaas_pgsql_username = module.dbaas_pgsql.dbaas_pgsql_username
@@ -40,6 +40,7 @@ module "loadbalancer" {
   source                     = "./modules/loadbalancer"
   zone                       = var.zone
   proxy_private_ip_addresses = module.proxy.proxy_private_ip_addresses
-  private_sdn_network        = module.sdn_network.private_sdn_network
-  sql_client_ip_address      = module.server.sql_client_ip_address
+  private_sdn_network_proxy       = module.sdn_network.private_sdn_network_proxy
+  private_sdn_network_client        = module.sdn_network.private_sdn_network_client
+  private_sdn_network_client_address = module.sdn_network.private_sdn_network_client_address
 }
