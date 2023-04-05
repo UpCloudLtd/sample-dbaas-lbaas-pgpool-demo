@@ -2,10 +2,11 @@ resource "upcloud_server" "sql-client" {
   hostname   = "sql-client"
   zone       = var.zone
   plan       = "1xCPU-1GB"
-  depends_on = [var.private_sdn_network, var.dbaas_pgsql_username]
+  metadata   = true
+  depends_on = [var.private_sdn_network_client, var.dbaas_pgsql_username]
 
   template {
-    storage = "Ubuntu Server 20.04 LTS (Focal Fossa)"
+    storage = "Ubuntu Server 22.04 LTS (Jammy Jellyfish)"
     size    = 25
   }
   network_interface {
@@ -13,7 +14,7 @@ resource "upcloud_server" "sql-client" {
   }
   network_interface {
     type    = "private"
-    network = var.private_sdn_network
+    network = var.private_sdn_network_client
   }
 
   login {

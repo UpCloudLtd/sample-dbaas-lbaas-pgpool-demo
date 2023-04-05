@@ -6,7 +6,7 @@ variable "zone" {
   type = string
 }
 
-variable "private_sdn_network" {
+variable "private_sdn_network_client" {
   type = string
 }
 

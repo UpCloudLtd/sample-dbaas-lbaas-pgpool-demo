@@ -10,7 +10,7 @@ variable "pgpool_proxy_plan" {
   type = string
 }
 
-variable "private_sdn_network" {
+variable "private_sdn_network_proxy" {
   type = string
 }
 

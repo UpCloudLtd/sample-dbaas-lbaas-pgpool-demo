@@ -34,7 +34,7 @@ ssh_key_public = "ssh-rsa AAAA_YOUR_SSH_PUBLIC_KEY"
 
 ### Creating services with basic configuration
 
-Initate the project and install providers.
+Initiate the project and install providers.
 
 ```
 make init
