@@ -14,6 +14,10 @@ variable "private_sdn_network_proxy" {
   type = string
 }
 
+variable "private_sdn_network_be" {
+  type = string
+}
+
 variable "dbaas_pgsql_hosts" {
   type = list(any)
 }

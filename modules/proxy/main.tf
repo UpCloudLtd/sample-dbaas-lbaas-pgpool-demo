@@ -15,11 +15,12 @@ resource "upcloud_server" "proxy-server" {
     type = "public"
   }
   network_interface {
-    type = "utility"
+    type    = "private"
+    network = var.private_sdn_network_proxy
   }
   network_interface {
     type    = "private"
-    network = var.private_sdn_network_proxy
+    network = var.private_sdn_network_be
   }
   login {
     user = "root"
@@ -65,8 +66,8 @@ resource "upcloud_server" "proxy-server" {
       "pg_md5 --md5auth --username=${var.dbaas_pgsql_username} ${var.dbaas_pgsql_password}",
       "pg_md5 --md5auth --username=${var.dbaas_pgsql_monitor_username} ${var.dbaas_pgsql_monitor_password}",
       "echo \"manager:$(pg_md5 ${var.dbaas_pgsql_default_password})\" >> pcp.conf",
+      "PGPASSWORD=${var.dbaas_pgsql_default_password} /usr/bin/psql -p11569 -U${var.dbaas_pgsql_default_username} -h ${var.dbaas_pgsql_hosts[0]} ${var.dbaas_pgsql_database} -c \"GRANT CREATE ON SCHEMA public TO ${var.dbaas_pgsql_username};\"",
       "systemctl stop pgpool2",
-      "rm /var/log/postgresql/pgpool_status",
       "sleep 10",
       "systemctl enable --now pgpool2"
     ]
@@ -74,8 +75,8 @@ resource "upcloud_server" "proxy-server" {
 }
 
 resource "upcloud_server_group" "proxy-ha-pair" {
-  title         = "proxy_ha_group"
-  anti_affinity = true
+  title                = "proxy_ha_group"
+  anti_affinity_policy = "yes"
   labels = {
     "key1" = "proxy-ha"
 

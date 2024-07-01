@@ -1,12 +1,13 @@
-
-module "dbaas_pgsql" {
-  source     = "./modules/dbaas_pgsql"
-  dbaas_plan = var.dbaas_plan
-  zone       = var.zone
-}
 module "sdn_network" {
   source = "./modules/sdn_network"
   zone   = var.zone
+}
+
+module "dbaas_pgsql" {
+  source                 = "./modules/dbaas_pgsql"
+  dbaas_plan             = var.dbaas_plan
+  zone                   = var.zone
+  private_sdn_network_be = module.sdn_network.private_sdn_network_be
 }
 
 module "proxy" {
@@ -15,6 +16,7 @@ module "proxy" {
   zone                         = var.zone
   pgpool_proxy_plan            = var.pgpool_proxy_plan
   private_sdn_network_proxy    = module.sdn_network.private_sdn_network_proxy
+  private_sdn_network_be       = module.sdn_network.private_sdn_network_be
   dbaas_pgsql_hosts            = module.dbaas_pgsql.dbaas_pgsql_hosts
   dbaas_pgsql_database         = module.dbaas_pgsql.dbaas_pgsql_database
   dbaas_pgsql_port             = module.dbaas_pgsql.dbaas_pgsql_port

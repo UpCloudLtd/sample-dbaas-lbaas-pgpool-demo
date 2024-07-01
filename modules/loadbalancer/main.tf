@@ -5,18 +5,18 @@ resource "upcloud_loadbalancer" "lb" {
   plan              = "production-small"
   zone              = var.zone
   networks {
-    name   = "SDN-Network-client"
-    type   = "private"
-    family = "IPv4"
+    name    = "SDN-Network-client"
+    type    = "private"
+    family  = "IPv4"
     network = var.private_sdn_network_client
   }
   networks {
-    name = "SDN-Network-Proxys"
-    family = "IPv4"
-    type = "private"
+    name    = "SDN-Network-Proxys"
+    family  = "IPv4"
+    type    = "private"
     network = var.private_sdn_network_proxy
   }
-  depends_on        = [var.private_sdn_network_proxy,var.private_sdn_network_client,var.proxy_private_ip_addresses]
+  depends_on = [var.private_sdn_network_proxy, var.private_sdn_network_client, var.proxy_private_ip_addresses]
 }
 
 resource "upcloud_loadbalancer_backend" "lb_be" {
@@ -45,10 +45,10 @@ resource "upcloud_loadbalancer_static_backend_member" "lb_be_member2" {
 }
 
 resource "upcloud_loadbalancer_frontend" "lb_fe" {
-  loadbalancer         = upcloud_loadbalancer.lb.id
-  name                 = "SQL-lB"
-  mode                 = "tcp"
-  port                 = 5432
+  loadbalancer = upcloud_loadbalancer.lb.id
+  name         = "SQL-lB"
+  mode         = "tcp"
+  port         = 5432
   networks {
     name = upcloud_loadbalancer.lb.networks[0].name
   }
